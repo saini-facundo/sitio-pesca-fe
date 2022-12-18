@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import "./index.css";
@@ -16,15 +15,15 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        path: "/home",
+        path: "home",
         element: <HomePage />,
       },
       {
-        path: "/rankings",
+        path: "rankings",
         element: <RankingsPage />,
       },
       {
-        path: "/upload",
+        path: "upload",
         element: <UploadPage />,
       },
     ],
