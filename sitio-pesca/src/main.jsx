@@ -7,9 +7,10 @@ import "./index.css";
 import Root from "./pages/Root";
 import RankingsPage from "./pages/RakingsPage";
 import UploadPage from "./pages/UploadPage";
-import { BottomNav } from "./components/BottomNav";
+import LoginPage from "./pages/Login";
 
 const router = createBrowserRouter([
+  { path: "login", element: <LoginPage /> },
   {
     path: "/",
     element: <Root />,
