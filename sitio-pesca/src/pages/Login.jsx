@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 
 function LoginPage() {
   const [user, setUser] = useState(false);
@@ -8,6 +8,7 @@ function LoginPage() {
       {user && <Navigate to="/home" replace={true} />}
       <p>Login PAGE</p>
       <button onClick={() => setUser(true)}>log</button>
+      <Link to="/register">Register</Link>
     </div>
   );
 }

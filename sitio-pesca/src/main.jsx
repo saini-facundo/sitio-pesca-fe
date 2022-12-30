@@ -7,9 +7,11 @@ import Root from "./pages/Root";
 import RankingsPage from "./pages/RankingsPage";
 import UploadPage from "./pages/UploadPage";
 import LoginPage from "./pages/Login";
+import RegisterPage from "./pages/RegisterPage";
 
 const router = createBrowserRouter([
-  { path: "/login", element: <LoginPage /> },
+  { path: "", element: <LoginPage /> },
+  { path: "/register", element: <RegisterPage /> },
   {
     path: "/",
     element: <Root />,
