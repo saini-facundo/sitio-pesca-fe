@@ -1,36 +1,51 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/HomePage";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  createRoutesFromElements,
+  defer,
+} from "react-router-dom";
 import "./index.css";
-import Root from "./pages/Root";
-import RankingsPage from "./pages/RankingsPage";
-import UploadPage from "./pages/UploadPage";
+import { PublicLayout } from "./Routes/PublicLayout";
+import { PrivateLayout } from "./Routes/PrivateLayout";
+import { AuthLayout } from "./Routes/AuthLayout";
 import LoginPage from "./pages/Login";
-import RegisterPage from "./pages/RegisterPage";
+import RegisterPage from "./pages/Register";
+import HomePage from "./pages/Home";
+import RankingsPage from "./pages/Rankings";
+import UploadPage from "./pages/Upload";
 
-const router = createBrowserRouter([
-  { path: "", element: <LoginPage /> },
-  { path: "/register", element: <RegisterPage /> },
-  {
-    path: "/",
-    element: <Root />,
-    children: [
-      {
-        path: "home",
-        element: <HomePage />,
-      },
-      {
-        path: "rankings",
-        element: <RankingsPage />,
-      },
-      {
-        path: "upload",
-        element: <UploadPage />,
-      },
-    ],
-  },
-]);
+const getUserData = () =>
+  new Promise((resolve) =>
+    setTimeout(() => {
+      const user = window.localStorage.getItem("user");
+      resolve(user);
+    }, 3000)
+  );
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route
+        element={<AuthLayout />}
+        loader={() => defer({ userPromise: getUserData() })}
+      >
+        <Route element={<PublicLayout />}>
+          <Route path="" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
+
+        <Route path="/" element={<PrivateLayout />}>
+          <Route path="home" element={<HomePage />} />
+          <Route path="rankings" element={<RankingsPage />} />
+          <Route path="upload" element={<UploadPage />} />
+        </Route>
+      </Route>
+    </>
+  )
+);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

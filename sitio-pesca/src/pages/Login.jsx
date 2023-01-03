@@ -1,13 +1,18 @@
-import { useState } from "react";
 import { Navigate, Link } from "react-router-dom";
+import { useAuth } from "../providers/Auth";
 
 function LoginPage() {
-  const [user, setUser] = useState(false);
+  const { login } = useAuth();
+
+  const loginUser = () => {
+    const user = { name: "facundo", email: "fsaini@blabla.com" };
+    login(user);
+  };
+
   return (
     <div>
-      {user && <Navigate to="/home" replace={true} />}
       <p>Login PAGE</p>
-      <button onClick={() => setUser(true)}>log</button>
+      <button onClick={loginUser}>log</button>
       <Link to="/register">Register</Link>
     </div>
   );
