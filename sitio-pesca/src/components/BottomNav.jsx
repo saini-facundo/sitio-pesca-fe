@@ -14,15 +14,19 @@ export const BottomNav = () => {
       elevation={3}
     >
       <BottomNavigation style={{ justifyContent: "space-around" }}>
-        <Link to={"/home"}>
-          <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-        </Link>
-        <Link to={"/rankings"}>
-          <BottomNavigationAction label="Rankings" icon={<StarIcon />} />
-        </Link>
-        <Link to={"/upload"}>
-          <BottomNavigationAction label="Subir" icon={<CloudUploadIcon />} />
-        </Link>
+        <BottomNavigationAction href="/home" label="Home" icon={<HomeIcon />} />
+
+        <BottomNavigationAction
+          href="/rankings"
+          label="Rankings"
+          icon={<StarIcon />}
+        />
+
+        <BottomNavigationAction
+          href="/upload"
+          label="Subir"
+          icon={<CloudUploadIcon />}
+        />
       </BottomNavigation>
     </Paper>
   );

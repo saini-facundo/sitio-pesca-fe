@@ -17,13 +17,14 @@ import HomePage from "./pages/Home";
 import RankingsPage from "./pages/Rankings";
 import UploadPage from "./pages/Upload";
 
-const getUserData = () =>
+const getUserData = () => {
   new Promise((resolve) =>
     setTimeout(() => {
       const user = window.localStorage.getItem("user");
       resolve(user);
     }, 3000)
   );
+};
 
 const router = createBrowserRouter(
   createRoutesFromElements(
