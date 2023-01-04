@@ -1,10 +1,9 @@
-import { useAuth } from "../providers/Auth";
-
+import { startLogout } from "../store/auth/thunks";
+import { useDispatch } from "react-redux";
 function HomePage() {
-  const { logout } = useAuth();
-
+  const dispatch = useDispatch();
   const logoutUser = () => {
-    logout();
+    dispatch(startLogout());
   };
 
   return (

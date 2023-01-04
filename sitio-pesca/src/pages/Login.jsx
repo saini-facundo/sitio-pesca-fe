@@ -1,12 +1,12 @@
-import { Navigate, Link } from "react-router-dom";
-import { useAuth } from "../providers/Auth";
+import { Link } from "react-router-dom";
+import { startSignIn } from "../store/auth/thunks";
+import { useDispatch } from "react-redux";
 
 function LoginPage() {
-  const { login } = useAuth();
+  const dispatch = useDispatch();
 
   const loginUser = () => {
-    const user = { name: "facundo", email: "fsaini@blabla.com" };
-    login(user);
+    dispatch(startSignIn({ username: "pescador1", password: "123456" }));
   };
 
   return (

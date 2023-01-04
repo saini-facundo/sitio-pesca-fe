@@ -1,10 +1,24 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../providers/Auth";
-
+import { useSelector } from "react-redux";
+import { getLSValue } from "../helpers/customLocalStorage";
+import { startLogIn } from "../store/auth/thunks";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 export const PublicLayout = () => {
-  const { user } = useAuth();
+  const dispatch = useDispatch();
+  const user = getLSValue("user");
 
-  if (user) {
+  useEffect(() => {
+    if (user) {
+      dispatch(startLogIn(user));
+    }
+  }, []);
+
+  const { status } = useSelector((state) => {
+    return state.auth;
+  });
+
+  if (status === "authenticated") {
     return <Navigate to="/home" />;
   }
 
