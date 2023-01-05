@@ -1,11 +1,25 @@
-import { startSignIn } from "../store/auth/thunks";
+import { startClearErrorMessage, startSignIn } from "../store/auth/thunks";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthTemplate } from "../templates/Auth";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Grid, TextField } from "@mui/material";
+import { Box, Button, Grid, Modal, TextField, Typography } from "@mui/material";
 
 function LoginPage() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
   const {
     register,
     handleSubmit,
@@ -17,9 +31,13 @@ function LoginPage() {
     },
   });
 
-  const { status } = useSelector((state) => {
+  const { status, errorMsg } = useSelector((state) => {
     return state.auth;
   });
+
+  useEffect(() => {
+    setModalOpen(true);
+  }, [errorMsg]);
 
   const dispatch = useDispatch();
 
@@ -30,6 +48,10 @@ function LoginPage() {
 
   const onSubmit = (data) => {
     dispatch(startSignIn(data));
+  };
+
+  const handleModalClose = () => {
+    dispatch(startClearErrorMessage());
   };
 
   return (
@@ -84,6 +106,32 @@ function LoginPage() {
           </Grid>
         </Grid>
       </form>
+
+      <Modal
+        open={modalOpen}
+        onClose={handleModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Error
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {errorMsg}
+          </Typography>
+
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => {
+              setModalOpen(false);
+            }}
+          >
+            Ok
+          </Button>
+        </Box>
+      </Modal>
     </AuthTemplate>
   );
 }

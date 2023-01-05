@@ -8,8 +8,9 @@ export const startSignIn = (userData) => {
     dispatch(checkingCredentials());
     if (!user) {
       const result = await signIn(userData);
+      const { msg } = result;
       if (!result.ok) {
-        return dispatch(logout());
+        return dispatch(logout({ errorMsg: msg }));
       }
       setLSValue("user", result.userDB);
       return dispatch(login(result.userDB));
@@ -28,5 +29,11 @@ export const startLogout = () => {
   return async (dispatch) => {
     setLSValue("user");
     dispatch(logout());
+  };
+};
+
+export const startClearErrorMessage = () => {
+  return async (dispatch) => {
+    dispatch(logout({ errorMsg: null }));
   };
 };
