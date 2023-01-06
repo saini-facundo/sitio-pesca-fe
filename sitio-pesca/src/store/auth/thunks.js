@@ -20,20 +20,20 @@ export const startSignIn = (userData) => {
 };
 
 export const startLogIn = (user) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(login(user));
   };
 };
 
 export const startLogout = () => {
-  return async (dispatch) => {
+  return (dispatch) => {
     setLSValue("user");
     dispatch(logout());
   };
 };
 
 export const startClearErrorMessage = () => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(logout({ errorMsg: null }));
   };
 };
