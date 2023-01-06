@@ -1,4 +1,7 @@
-import { startClearErrorMessage, startSignIn } from "../store/auth/thunks";
+import {
+  startClearErrorMessage,
+  startRegisterUser,
+} from "../store/auth/thunks";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthTemplate } from "../templates/Auth";
 import { useEffect, useMemo, useState } from "react";
@@ -18,11 +21,16 @@ function LoginPage() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {
+      name: "",
+      surname: "",
       username: "",
+      email: "",
       password: "",
+      password2: "",
     },
   });
 
@@ -44,12 +52,14 @@ function LoginPage() {
   );
 
   const onSubmit = (data) => {
-    console.log("CREAR USUARIO");
+    dispatch(startRegisterUser(data));
   };
 
   const handleModalClose = () => {
     setModalOpen(false);
-    dispatch(startClearErrorMessage());
+    setTimeout(() => {
+      dispatch(startClearErrorMessage());
+    }, 200);
   };
 
   return (
@@ -63,15 +73,57 @@ function LoginPage() {
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
-              {...register("username", {
-                required: "Email/Nombre de usuario obligatorio",
+              {...register("name", {
+                required: "Nombre obligatorio",
               })}
-              label="Email/Nombre de Usuario"
+              label="Nombre"
+              type="text"
+              placeholder=""
+              fullWidth
+              error={!!errors.name}
+              helperText={errors.name?.message}
+            />
+          </Grid>
+
+          <Grid item xs={12} sx={{ mt: 2 }}>
+            <TextField
+              {...register("surname", {
+                required: "Apellido obligatorio",
+              })}
+              label="Apellido"
+              type="text"
+              placeholder=""
+              fullWidth
+              error={!!errors.surname}
+              helperText={errors.surname?.message}
+            />
+          </Grid>
+
+          <Grid item xs={12} sx={{ mt: 2 }}>
+            <TextField
+              {...register("username", {
+                required: "Nombre de usuario obligatorio",
+              })}
+              label="Nombre de Usuario"
               type="text"
               placeholder=""
               fullWidth
               error={!!errors.username}
               helperText={errors.username?.message}
+            />
+          </Grid>
+
+          <Grid item xs={12} sx={{ mt: 2 }}>
+            <TextField
+              {...register("email", {
+                required: "Email obligatorio",
+              })}
+              label="Email"
+              type="text"
+              placeholder=""
+              fullWidth
+              error={!!errors.email}
+              helperText={errors.email?.message}
             />
           </Grid>
 
@@ -92,6 +144,24 @@ function LoginPage() {
               helperText={errors.password?.message}
             />
           </Grid>
+
+          <Grid item xs={12} sx={{ mt: 2 }}>
+            <TextField
+              {...register("password2", {
+                required: "Debe confirmar la contraseña",
+                validate: (value) =>
+                  value === getValues("password") ||
+                  "Las contraseñas deben coincidir",
+              })}
+              label="Confirmar Contraseña"
+              type="password"
+              placeholder=""
+              fullWidth
+              error={!!errors.password2}
+              helperText={errors.password2?.message}
+            />
+          </Grid>
+
           <Grid item xs={12} sx={{ mt: 2 }}>
             <Button
               disabled={isCheckingAuthentication}

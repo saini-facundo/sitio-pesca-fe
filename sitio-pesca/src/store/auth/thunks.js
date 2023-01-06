@@ -1,5 +1,5 @@
 import { checkingCredentials, login, logout } from "./authSlice";
-import { signIn } from "../../apis/auth";
+import { createUser, signIn } from "../../apis/auth";
 import { getLSValue, setLSValue } from "../../helpers/customLocalStorage";
 
 export const startSignIn = (userData) => {
@@ -35,5 +35,17 @@ export const startLogout = () => {
 export const startClearErrorMessage = () => {
   return (dispatch) => {
     dispatch(logout({ errorMsg: null }));
+  };
+};
+
+export const startRegisterUser = (userData) => {
+  return async (dispatch) => {
+    const result = await createUser(userData);
+    const { msg } = result;
+    if (!result.ok) {
+      return dispatch(logout({ errorMsg: msg }));
+    }
+    setLSValue("user", result.usuario);
+    return dispatch(login(result.usuario));
   };
 };
